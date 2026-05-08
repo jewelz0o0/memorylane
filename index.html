@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Memory Lane Yoga</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main id="site" class="site">
+      <header class="topbar">
+        <div class="wrap topbar__inner">
+          <a href="#home" class="topbar__brand">Memory Lane Yoga</a>
+          <nav class="topbar__nav" aria-label="Primary">
+            <a href="#home">Home</a>
+            <a href="#about">About</a>
+            <a href="#practice">Practice</a>
+            <a href="#events">Events</a>
+            <a href="#contact">Contact</a>
+          </nav>
+          <a href="#contact" class="btn btn--organic">Get In Touch</a>
+        </div>
+      </header>
+
+      <section id="home" class="hero">
+        <div class="wrap hero__inner">
+          <h1 class="hero__headline">Clarity Through Movement</h1>
+          <div class="hero__photo">
+            <img
+              src="assets/hero-forest.png"
+              width="1024"
+              height="420"
+              alt="Sunlit trees and pond with lily pads"
+            />
+          </div>
+          <p class="hero__intro">
+            <em
+              >Memory Lane Yoga is where presence and play meet, creating space to expand yourself and grow your
+              roots.</em
+            >
+          </p>
+        </div>
+      </section>
+
+      <section id="about" class="section section--about">
+        <div class="wrap">
+          <h2 class="section__title">About</h2>
+          <div class="rule"></div>
+
+          <div class="grid-about">
+            <article class="card-about">
+              <div class="card-about__img">
+                <img src="assets/about-col1.png" alt="" width="341" height="620" loading="lazy" />
+              </div>
+              <h3 class="card-about__title">Presence Meets Play</h3>
+              <p class="card-about__text">
+                Discover how to reconnect with the essence of playfulness through intentional movement and curiosity.
+              </p>
+            </article>
+            <article class="card-about">
+              <div class="card-about__img">
+                <img src="assets/about-col2.png" alt="" width="341" height="620" loading="lazy" />
+              </div>
+              <h3 class="card-about__title">Return to Your Heart</h3>
+              <p class="card-about__text">
+                Find the space to let your heart expand with guided breath to movement.
+              </p>
+            </article>
+            <article class="card-about">
+              <div class="card-about__img">
+                <img src="assets/about-col3.png" alt="" width="342" height="620" loading="lazy" />
+              </div>
+              <h3 class="card-about__title">Find Clarity in Everyday Life</h3>
+              <p class="card-about__text">
+                Yoga is a living practice that supports a deeper, more nourishing connection to ourselves and the world,
+                cultivating a sharper sense of clarity.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="practice" class="section section--practice">
+        <div class="wrap">
+          <h2 class="section__title">Practice</h2>
+          <div class="rule"></div>
+
+          <div class="panel panel--yellow panel--wide">
+            <img
+              src="assets/practice-yoga.png"
+              class="panel__hero-img"
+              width="1000"
+              height="400"
+              alt="Group resting on mats in a grassy meadow"
+              loading="lazy"
+            />
+          </div>
+
+          <div class="grid-practice">
+            <div class="panel panel--yellow panel--half">
+              <h3 class="panel__heading">Yoga Offerings</h3>
+              <p class="panel__sub">Every Friday</p>
+            </div>
+            <div class="panel panel--yellow panel--half panel--img">
+              <img src="assets/offerings-feet.png" alt="Feet on grass after practice" loading="lazy" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section--offerings" aria-labelledby="offerings-heading">
+        <div class="wrap">
+          <div class="panel panel--yellow panel--split">
+            <div class="offerings__copy">
+              <h3 id="offerings-heading" class="panel__heading">Yoga Offerings</h3>
+              <ul class="offerings__list">
+                <li>Every Friday</li>
+                <li>6pm</li>
+                <li>Golden Gate Park, Hellman&rsquo;s Hollow</li>
+                <li><span class="offerings__coords">37.768909&deg; N, 122.487123&deg; W</span></li>
+              </ul>
+            </div>
+            <div class="offerings__photo">
+              <img src="assets/offerings-feet.png" alt="" loading="lazy" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="events" class="section section--events">
+        <div class="wrap">
+          <h2 class="section__title">Events</h2>
+          <div class="rule"></div>
+          <p class="events__text">
+            Seasonal gatherings and special outdoor sessions—details are announced to the list and on Instagram.
+          </p>
+        </div>
+      </section>
+
+      <section id="contact" class="section section--contact">
+        <div class="wrap">
+          <div class="grid-contact">
+            <div class="contact__left">
+              <h2 class="contact__title">Let&rsquo;s Keep in Touch</h2>
+            </div>
+            <div class="contact__right">
+              <p class="contact__lede">
+                Have questions? Care to share some thoughts, reflections, jokes? Wanna collaborate? Just email me!
+              </p>
+              <form class="contact-form" id="contact-form">
+                <div class="form-row form-row--2">
+                  <label class="field">
+                    <span class="field__label">First Name <span class="req">(required)</span></span>
+                    <input type="text" name="firstName" required autocomplete="given-name" />
+                  </label>
+                  <label class="field">
+                    <span class="field__label">Last Name <span class="req">(required)</span></span>
+                    <input type="text" name="lastName" required autocomplete="family-name" />
+                  </label>
+                </div>
+                <label class="field">
+                  <span class="field__label">Email <span class="req">(required)</span></span>
+                  <input type="email" name="email" required autocomplete="email" />
+                </label>
+                <label class="field field--check">
+                  <input type="checkbox" name="newsletter" />
+                  <span>Sign up for news and updates</span>
+                </label>
+                <label class="field">
+                  <span class="field__label">Subject <span class="req">(required)</span></span>
+                  <input type="text" name="subject" required />
+                </label>
+                <label class="field">
+                  <span class="field__label">Message</span>
+                  <textarea name="message" rows="5"></textarea>
+                </label>
+                <button type="submit" class="btn btn--submit">Submit</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <footer class="footer">
+        <div class="wrap footer__grid">
+          <div class="footer__col">
+            <h3 class="footer__heading">About</h3>
+            <p>San Francisco, CA</p>
+          </div>
+          <div class="footer__col">
+            <h3 class="footer__heading">Contact</h3>
+            <p><a href="mailto:hello@memorylaneyoga.com">hello@memorylaneyoga.com</a></p>
+          </div>
+          <div class="footer__col">
+            <h3 class="footer__heading">Follow</h3>
+            <p><a href="https://www.instagram.com/" rel="noopener noreferrer">Instagram</a></p>
+          </div>
+          <div class="footer__col">
+            <h3 class="footer__heading">Newsletter</h3>
+            <p class="footer__newsletter-copy">
+              Stay in the loop. I&rsquo;ll send you updates on when and where yoga offerings are happening.
+            </p>
+            <form class="footer-newsletter" id="footer-newsletter">
+              <input type="email" name="footerEmail" placeholder="Email Address" aria-label="Email address" />
+              <button type="submit">Sign Up</button>
+            </form>
+          </div>
+        </div>
+      </footer>
+    </main>
+    <script src="app.js"></script>
+  </body>
+</html>
