@@ -11,6 +11,7 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="https://sibforms.com/forms/end-form/build/sib-styles.css" />
   </head>
   <body>
     <main id="site" class="site">
@@ -155,37 +156,63 @@
             </div>
             <div class="contact__right">
               <p class="contact__lede">
-                Have questions? Care to share some thoughts, reflections, jokes? Wanna collaborate? Just email me!
+                Stay in the loop. I&rsquo;ll send you updates on when and where yoga offerings are happening.
               </p>
-              <form class="contact-form" id="contact-form">
-                <div class="form-row form-row--2">
-                  <label class="field">
-                    <span class="field__label">First Name <span class="req">(required)</span></span>
-                    <input type="text" name="firstName" required autocomplete="given-name" />
-                  </label>
-                  <label class="field">
-                    <span class="field__label">Last Name <span class="req">(required)</span></span>
-                    <input type="text" name="lastName" required autocomplete="family-name" />
-                  </label>
+              <div class="signup-form">
+                <div class="sib-form">
+                  <div id="sib-form-container" class="sib-form-container">
+                    <div id="sib-container" class="sib-container--large sib-container--vertical">
+                      <form
+                        id="sib-form"
+                        method="POST"
+                        action="https://b28e0bb2.sibforms.com/serve/MUIFAOXUUqKgBkqV8euS6GmaVUHRFthPIP5osQr9uwylGTPqwyjaSCSaoQl9IwezW_TNJPD_K6polZiGJbKtNz3q_w_t-a75NdFOsf24EjKT0Qz9TUV5kxWFidHJloVV4lhJ9Qmed6e0PD2rY2u6IaTOiSTmVLRKNBjO3Cw6zzJGHHYqsNdsOZRo0TfRPT9Kg9EVFljUJ8PJ5KEmkw=="
+                      >
+                        <div class="sib-input sib-form-block">
+                          <div class="form__entry entry_block">
+                            <div class="form__label-row">
+                              <label class="entry__label" for="EMAIL">Email address</label>
+                              <div class="entry__field">
+                                <input
+                                  class="input"
+                                  type="email"
+                                  id="EMAIL"
+                                  name="EMAIL"
+                                  autocomplete="email"
+                                  placeholder="Email Address"
+                                  data-required="true"
+                                  required
+                                />
+                              </div>
+                            </div>
+                            <label class="entry__error entry__error--primary"></label>
+                          </div>
+                        </div>
+                        <div class="sib-form-block">
+                          <button
+                            class="sib-form-block__button sib-form-block__button-with-loader"
+                            form="sib-form"
+                            type="submit"
+                          >
+                            <svg
+                              class="icon clickable__icon progress-indicator__icon sib-hide-loader-icon"
+                              viewBox="0 0 512 512"
+                              aria-hidden="true"
+                            >
+                              <path
+                                d="M460.116 373.846l-20.823-12.022c-5.541-3.199-7.54-10.159-4.663-15.874 30.137-59.886 28.343-131.652-5.386-189.946-33.641-58.394-94.896-95.833-161.827-99.676C261.028 55.961 256 50.751 256 44.352V20.309c0-6.904 5.808-12.337 12.703-11.982 83.556 4.306 160.163 50.864 202.11 123.677 42.063 72.696 44.079 162.316 6.031 236.832-3.14 6.148-10.75 8.461-16.728 5.01z"
+                              />
+                            </svg>
+                            Sign Up
+                          </button>
+                        </div>
+                        <input type="text" name="email_address_check" value="" class="input--hidden" tabindex="-1" autocomplete="off" />
+                        <input type="hidden" name="locale" value="en" />
+                        <input type="hidden" name="html_type" value="simple" />
+                      </form>
+                    </div>
+                  </div>
                 </div>
-                <label class="field">
-                  <span class="field__label">Email <span class="req">(required)</span></span>
-                  <input type="email" name="email" required autocomplete="email" />
-                </label>
-                <label class="field field--check">
-                  <input type="checkbox" name="newsletter" />
-                  <span>Sign up for news and updates</span>
-                </label>
-                <label class="field">
-                  <span class="field__label">Subject <span class="req">(required)</span></span>
-                  <input type="text" name="subject" required />
-                </label>
-                <label class="field">
-                  <span class="field__label">Message</span>
-                  <textarea name="message" rows="5"></textarea>
-                </label>
-                <button type="submit" class="btn btn--submit">Submit</button>
-              </form>
+              </div>
             </div>
           </div>
         </div>
@@ -222,17 +249,13 @@
           </div>
           <div class="footer__col">
             <h3 class="footer__heading">Newsletter</h3>
-            <p class="footer__newsletter-copy">
-              Stay in the loop. I&rsquo;ll send you updates on when and where yoga offerings are happening.
+            <p>
+              <a href="#contact">Sign up for updates</a>
             </p>
-            <form class="footer-newsletter" id="footer-newsletter">
-              <input type="email" name="footerEmail" placeholder="Email Address" aria-label="Email address" />
-              <button type="submit">Sign Up</button>
-            </form>
           </div>
         </div>
       </footer>
     </main>
-    <script src="app.js"></script>
+    <script defer src="https://sibforms.com/forms/end-form/build/main.js"></script>
   </body>
 </html>
