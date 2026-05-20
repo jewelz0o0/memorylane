@@ -5,7 +5,7 @@
 }
 
 :root {
-  --bg-page: #ebe8e0;
+  --bg-page: #ffe8ac;
   --bg-soft: #f2ede4;
   --yellow: #eed484;
   --yellow-deep: #e8c96a;
@@ -194,12 +194,6 @@ body {
 
 .section--practice {
   background: var(--bg-soft);
-  padding-bottom: 1rem;
-}
-
-.section--offerings {
-  background: var(--bg-soft);
-  padding-top: 0;
 }
 
 .section--events {
@@ -282,45 +276,12 @@ body {
   vertical-align: middle;
 }
 
-.grid-practice {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1.25rem;
-  margin-bottom: 2rem;
-}
-
-.panel--half {
-  min-height: 160px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.panel--img {
-  padding: 0.75rem;
-  overflow: hidden;
-}
-
-.panel--img img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 12px;
-  min-height: 140px;
-}
-
 .panel__heading {
   margin: 0 0 0.35rem;
   font-family: var(--font-serif);
   font-size: clamp(1.35rem, 2.5vw, 1.75rem);
   font-weight: 700;
   color: var(--charcoal);
-}
-
-.panel__sub {
-  margin: 0;
-  font-size: 0.85rem;
-  color: var(--text);
 }
 
 /* Offerings split */
@@ -485,6 +446,21 @@ body {
   color: #7bc4cc;
 }
 
+.footer__icon-link {
+  display: inline-flex;
+  text-decoration: none;
+}
+
+.footer__icon-link:hover {
+  color: #7bc4cc;
+}
+
+.footer__icon {
+  width: 1.5rem;
+  height: 1.5rem;
+  display: block;
+}
+
 .footer__newsletter-copy {
   margin-bottom: 1rem !important;
   font-size: 0.82rem;
@@ -538,10 +514,6 @@ body {
   }
 
   .grid-about {
-    grid-template-columns: 1fr;
-  }
-
-  .grid-practice {
     grid-template-columns: 1fr;
   }
 
