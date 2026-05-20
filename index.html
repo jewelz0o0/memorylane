@@ -161,6 +161,29 @@
               <div class="signup-form">
                 <div class="sib-form">
                   <div id="sib-form-container" class="sib-form-container">
+                    <div
+                      id="success-message"
+                      class="sib-form-message-panel signup-form__message signup-form__message--success"
+                      role="status"
+                      aria-live="polite"
+                    >
+                      <div class="sib-form-message-panel__text">
+                        <span class="sib-form-message-panel__inner-text"
+                          >You&rsquo;re on the list — thank you!</span
+                        >
+                      </div>
+                    </div>
+                    <div
+                      id="error-message"
+                      class="sib-form-message-panel signup-form__message signup-form__message--error"
+                      role="alert"
+                    >
+                      <div class="sib-form-message-panel__text">
+                        <span class="sib-form-message-panel__inner-text"
+                          >Something went wrong. Please try again.</span
+                        >
+                      </div>
+                    </div>
                     <div id="sib-container" class="sib-container--large sib-container--vertical">
                       <form
                         id="sib-form"
@@ -257,5 +280,6 @@
       </footer>
     </main>
     <script defer src="https://sibforms.com/forms/end-form/build/main.js"></script>
+    <script src="app.js"></script>
   </body>
 </html>

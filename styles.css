@@ -22,11 +22,12 @@
   --radius-input: 10px;
   --radius-btn-leaf: 0 18px 0 18px;
   --wrap: min(1100px, 100% - 48px);
+  --topbar-h: 4.75rem;
 }
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 88px;
+  scroll-padding-top: var(--topbar-h);
 }
 
 html,
@@ -54,10 +55,12 @@ body {
   margin-inline: auto;
 }
 
-/* Top bar */
+/* Top bar — fixed so the hero can fill exactly one viewport */
 .topbar {
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
+  right: 0;
   z-index: 100;
   background: var(--bg-page);
   border-bottom: 1px solid rgba(0, 0, 0, 0.06);
@@ -68,7 +71,7 @@ body {
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  padding: 1.1rem 0;
+  padding: 0.75rem 0;
   flex-wrap: wrap;
 }
 
@@ -127,46 +130,61 @@ body {
   background: #1f2e26;
 }
 
-/* Hero */
+/* Hero — exactly one screen: headline, photo, quote */
 .hero {
-  padding: 1.5rem 0 3rem;
+  height: 100dvh;
+  max-height: 100dvh;
+  padding: calc(var(--topbar-h) + 0.5rem) 0 0.75rem;
   background: var(--bg-page);
+  box-sizing: border-box;
+  overflow: hidden;
 }
 
 .hero__inner {
+  height: 100%;
+  width: 100%;
   text-align: center;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: clamp(0.4rem, 1.2vh, 0.9rem);
 }
 
 .hero__headline {
-  margin: 0 0 1.75rem;
+  margin: 0;
   font-family: var(--font-serif);
-  font-size: clamp(2rem, 4.5vw, 2.75rem);
+  font-size: clamp(1.5rem, 3.5vw, 2.5rem);
   font-weight: 600;
   letter-spacing: -0.02em;
+  line-height: 1.15;
   color: var(--text);
 }
 
 .hero__photo {
-  margin: 0 auto 2rem;
+  min-height: 0;
+  height: 100%;
+  margin: 0 auto;
   border-radius: 12px;
   overflow: hidden;
+  width: 100%;
   max-width: 1000px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.08);
 }
 
 .hero__photo img {
   display: block;
   width: 100%;
-  height: auto;
-  vertical-align: middle;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
 }
 
 .hero__intro {
   max-width: 36rem;
   margin: 0 auto;
   font-family: var(--font-serif);
-  font-size: clamp(0.95rem, 2vw, 1.05rem);
-  line-height: 1.65;
+  font-size: clamp(0.82rem, 1.6vw, 1rem);
+  line-height: 1.45;
   color: var(--muted);
 }
 
@@ -214,8 +232,7 @@ body {
   border-radius: 14px;
   overflow: hidden;
   margin-bottom: 1rem;
-  aspect-ratio: 341 / 620;
-  max-height: 420px;
+  aspect-ratio: 4 / 5;
 }
 
 .card-about__img img {
@@ -336,6 +353,48 @@ body {
 }
 
 /* Brevo signup */
+.signup-form #sib-container,
+.signup-form #sib-container .input,
+.signup-form #sib-container .entry__error--primary,
+.signup-form .sib-form-message-panel__inner-text {
+  font-family: var(--font-sans) !important;
+}
+
+.signup-form .sib-form-block__button {
+  font-family: var(--font-serif) !important;
+}
+
+.signup-form__message {
+  display: none;
+  margin: 0 0 1rem;
+  padding: 0.85rem 1rem;
+  border-radius: var(--radius-input);
+  font-family: var(--font-serif) !important;
+  font-size: 1rem;
+  line-height: 1.5;
+  text-align: left;
+}
+
+.signup-form__message.sib-form-message-panel--active {
+  display: block;
+}
+
+.signup-form__message--success {
+  background: var(--yellow-input);
+  color: var(--charcoal);
+  border: 1px solid rgba(74, 143, 150, 0.4);
+}
+
+.signup-form__message--success .sib-form-message-panel__inner-text {
+  font-family: var(--font-serif) !important;
+}
+
+.signup-form__message--error {
+  background: #ffeded;
+  color: #661d1d;
+  border: 1px solid #ff4949;
+}
+
 .signup-form .sib-form {
   text-align: left;
   background: transparent;
@@ -485,6 +544,19 @@ body {
 }
 
 @media (max-width: 900px) {
+  :root {
+    --topbar-h: 7.75rem;
+  }
+
+  .hero__headline {
+    font-size: clamp(1.35rem, 5vw, 1.85rem);
+  }
+
+  .hero__intro {
+    font-size: 0.82rem;
+    line-height: 1.4;
+  }
+
   .topbar__inner {
     justify-content: center;
   }
@@ -514,10 +586,19 @@ body {
 @media (max-width: 600px) {
   :root {
     --wrap: calc(100% - 32px);
+    --topbar-h: 9rem;
   }
 
-  html {
-    scroll-padding-top: 120px;
+  .hero {
+    padding-bottom: 0.5rem;
+  }
+
+  .hero__headline {
+    font-size: 1.35rem;
+  }
+
+  .hero__intro {
+    font-size: 0.78rem;
   }
 
   .footer__grid {
