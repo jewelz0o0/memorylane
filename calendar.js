@@ -26,6 +26,20 @@
 
   const pad = (n) => String(n).padStart(2, "0");
 
+  const toTimezoneDate = (date, timeZone = cls.timezone) => {
+    const parts = new Intl.DateTimeFormat("en-CA", {
+      timeZone,
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    }).formatToParts(date);
+
+    const year = Number(parts.find((part) => part.type === "year").value);
+    const month = Number(parts.find((part) => part.type === "month").value) - 1;
+    const day = Number(parts.find((part) => part.type === "day").value);
+    return new Date(year, month, day);
+  };
+
   const dateKey = (date) => `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
 
   const formatIcsDateLocal = (date) =>
@@ -34,12 +48,14 @@
   const addScheduledDate = (date, summary) => {
     const key = dateKey(date);
     const existing = scheduledByDate.get(key) || [];
-    existing.push(summary);
-    scheduledByDate.set(key, existing);
+    if (!existing.includes(summary)) {
+      existing.push(summary);
+      scheduledByDate.set(key, existing);
+    }
   };
 
   const parseIcsDate = (raw) => {
-    const value = raw.replace(/^.*:/, "").trim();
+    const value = raw.replace(/^[^:]*:/, "").trim();
     if (value.includes("T")) {
       const iso = value.endsWith("Z")
         ? value.replace(/(\d{4})(\d{2})(\d{2})T(\d{2})(\d{2})(\d{2})Z/, "$1-$2-$3T$4:$5:$6Z")
@@ -55,38 +71,40 @@
   const parseIcsEvents = (text) => {
     const unfolded = unfoldIcs(text);
     const blocks = unfolded.split("BEGIN:VEVENT").slice(1);
+
     return blocks.map((block) => {
       const lines = block.split("\n");
       const event = { summary: "Yoga class" };
+
       lines.forEach((line) => {
         if (line.startsWith("DTSTART")) event.dtstart = parseIcsDate(line);
+        if (line.startsWith("DTEND")) event.dtend = parseIcsDate(line);
         if (line.startsWith("SUMMARY:")) event.summary = line.slice(8).trim();
         if (line.startsWith("RRULE:")) event.rrule = line.slice(6).trim();
         if (line.startsWith("LOCATION:")) event.location = line.slice(9).trim();
       });
+
       return event;
     });
   };
 
-  const parseRrule = (rrule) => {
-    const parts = Object.fromEntries(
+  const parseRrule = (rrule) =>
+    Object.fromEntries(
       rrule.split(";").map((part) => {
         const [key, value] = part.split("=");
         return [key, value];
       })
     );
-    return parts;
-  };
 
   const expandEventDates = (event, year, month) => {
     const dates = [];
     const daysInMonth = new Date(year, month + 1, 0).getDate();
-    const monthStart = new Date(year, month, 1);
-    const monthEnd = new Date(year, month, daysInMonth, 23, 59, 59);
 
     if (!event.rrule) {
-      if (event.dtstart && event.dtstart >= monthStart && event.dtstart <= monthEnd) {
-        dates.push(new Date(event.dtstart.getFullYear(), event.dtstart.getMonth(), event.dtstart.getDate()));
+      if (!event.dtstart) return dates;
+      const calendarDay = toTimezoneDate(event.dtstart);
+      if (calendarDay.getFullYear() === year && calendarDay.getMonth() === month) {
+        dates.push(calendarDay);
       }
       return dates;
     }
@@ -94,15 +112,16 @@
     const rule = parseRrule(event.rrule);
     if (rule.FREQ !== "WEEKLY" || !rule.BYDAY) return dates;
 
-    const allowedDays = rule.BYDAY.split(",").map((day) => BYDAY_MAP[day]).filter((day) => day !== undefined);
-    const until = rule.UNTIL ? parseIcsDate(rule.UNTIL) : null;
+    const allowedDays = rule.BYDAY.split(",")
+      .map((day) => BYDAY_MAP[day])
+      .filter((day) => day !== undefined);
+    const eventStartDay = event.dtstart ? toTimezoneDate(event.dtstart) : null;
+    const until = rule.UNTIL ? toTimezoneDate(parseIcsDate(rule.UNTIL)) : null;
 
     for (let day = 1; day <= daysInMonth; day += 1) {
       const date = new Date(year, month, day);
       if (!allowedDays.includes(date.getDay())) continue;
-      if (event.dtstart && date < new Date(event.dtstart.getFullYear(), event.dtstart.getMonth(), event.dtstart.getDate())) {
-        continue;
-      }
+      if (eventStartDay && date < eventStartDay) continue;
       if (until && date > until) continue;
       dates.push(date);
     }
@@ -111,13 +130,11 @@
   };
 
   const buildScheduleMap = (events) => {
-    const map = new Map();
-    scheduledByDate = map;
+    scheduledByDate = new Map();
+    const startYear = viewDate.getFullYear() - 1;
+    const endYear = viewDate.getFullYear() + 2;
 
     events.forEach((event) => {
-      const startYear = viewDate.getFullYear() - 1;
-      const endYear = viewDate.getFullYear() + 2;
-
       for (let year = startYear; year <= endYear; year += 1) {
         for (let month = 0; month < 12; month += 1) {
           expandEventDates(event, year, month).forEach((date) => {
@@ -127,20 +144,34 @@
         }
       }
     });
-
-    return map;
   };
 
-  const icsFeedUrl = () =>
-    `https://calendar.google.com/calendar/ical/${encodeURIComponent(googleCalendarId)}/public/basic.ics`;
+  const registerCalendarWorker = async () => {
+    if (!("serviceWorker" in navigator)) return;
+    try {
+      await navigator.serviceWorker.register("/sw.js");
+      await navigator.serviceWorker.ready;
+    } catch (error) {
+      console.warn("Calendar service worker could not be registered.", error);
+    }
+  };
 
   const fetchIcsText = async () => {
-    const url = icsFeedUrl();
+    if ("serviceWorker" in navigator) {
+      try {
+        const local = await fetch("/calendar-feed.ics", { cache: "no-cache" });
+        if (local.ok) return local.text();
+      } catch (_) {
+        /* fall through to direct feed attempt */
+      }
+    }
+
+    const url = `https://calendar.google.com/calendar/ical/${encodeURIComponent(googleCalendarId)}/public/full.ics`;
     try {
       const direct = await fetch(url);
       if (direct.ok) return direct.text();
     } catch (_) {
-      /* public ICS feeds are often blocked by CORS in the browser */
+      /* CORS may block direct fetch */
     }
 
     const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`;
@@ -152,6 +183,7 @@
   const loadCalendarEvents = async () => {
     if (!googleCalendarId) return;
     try {
+      await registerCalendarWorker();
       const text = await fetchIcsText();
       buildScheduleMap(parseIcsEvents(text));
     } catch (error) {
@@ -253,8 +285,7 @@
 
     const firstDay = new Date(year, month, 1).getDay();
     const daysInMonth = new Date(year, month + 1, 0).getDate();
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
+    const today = toTimezoneDate(new Date());
 
     grid.innerHTML = "";
 
@@ -278,7 +309,7 @@
       cell.className = "calendar__day";
       cell.textContent = String(day);
 
-      if (cellDate.getTime() === today.getTime()) {
+      if (dateKey(cellDate) === dateKey(today)) {
         cell.classList.add("calendar__day--today");
       }
 
@@ -338,13 +369,13 @@
         ${
           !hasLiveCalendar
             ? `<a class="btn btn--calendar btn--calendar-outline" href="${googleAddUrl()}" target="_blank" rel="noopener noreferrer">Add to Google Calendar</a>
-               <button type="button" class="btn btn--calendar btn--calendar-outline" id="calendar-download-ics">Download calendar file</button>`
+               <button type="button" class="btn btn--calendar btn--calendar-outline" data-calendar-download>Download calendar file</button>`
             : ""
         }
       </div>
     `;
 
-    container.querySelector("#calendar-download-ics")?.addEventListener("click", downloadIcs);
+    container.querySelector("[data-calendar-download]")?.addEventListener("click", downloadIcs);
   };
 
   document.getElementById("calendar-prev")?.addEventListener("click", () => {
@@ -360,11 +391,7 @@
   renderMonth();
   renderEmbed();
   renderSyncLinks(document.getElementById("calendar-sync"));
-  renderSyncLinks(document.getElementById("calendar-sync-signup"));
   loadCalendarEvents();
 
-  window.MLY_showCalendarSync = () => {
-    const signupSync = document.getElementById("calendar-sync-signup");
-    if (signupSync) signupSync.hidden = false;
-  };
+  window.MLY_getCalendarSubscribeUrl = googleSubscribeUrl;
 })();
