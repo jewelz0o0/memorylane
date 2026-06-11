@@ -143,8 +143,32 @@
           <h2 class="section__title">Events</h2>
           <div class="rule"></div>
           <p class="events__text">
-            Seasonal gatherings and special outdoor sessions—details are announced to the list and on Instagram.
+            Weekly outdoor yoga every Friday at 6pm in Golden Gate Park. Seasonal gatherings and special sessions are
+            added to the calendar below.
           </p>
+
+          <div class="calendar">
+            <div class="calendar__panel">
+              <div class="calendar__header">
+                <button type="button" class="calendar__nav" id="calendar-prev" aria-label="Previous month">&larr;</button>
+                <h3 class="calendar__month" id="calendar-month-label"></h3>
+                <button type="button" class="calendar__nav" id="calendar-next" aria-label="Next month">&rarr;</button>
+              </div>
+              <div class="calendar__grid" id="calendar-grid" aria-label="Class schedule"></div>
+              <p class="calendar__legend"><span class="calendar__dot"></span> Friday class at 6pm</p>
+            </div>
+
+            <div class="calendar__aside">
+              <div class="calendar-sync" id="calendar-sync"></div>
+              <div class="calendar-subscribe" id="calendar-subscribe" hidden>
+                <p class="calendar-subscribe__note">
+                  Subscribe to stay synced — when you update your Google Calendar, subscribers see changes automatically.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="calendar-embed" id="calendar-embed" hidden></div>
         </div>
       </section>
 
@@ -172,6 +196,7 @@
                           >You&rsquo;re on the list — thank you!</span
                         >
                       </div>
+                      <div class="calendar-sync calendar-sync--signup" id="calendar-sync-signup" hidden></div>
                     </div>
                     <div
                       id="error-message"
@@ -279,7 +304,9 @@
         </div>
       </footer>
     </main>
+    <script src="calendar-config.js"></script>
     <script defer src="https://sibforms.com/forms/end-form/build/main.js"></script>
+    <script src="calendar.js"></script>
     <script src="app.js"></script>
   </body>
 </html>

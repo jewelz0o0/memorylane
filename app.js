@@ -9,6 +9,7 @@
   const onSuccess = () => {
     emailInput.value = "";
     if (sibContainer) sibContainer.style.display = "";
+    window.MLY_showCalendarSync?.();
   };
 
   const observer = new MutationObserver(() => {
