@@ -12,9 +12,9 @@ window.MLY_CALENDAR = {
     hour: 18,
     minute: 0,
     durationMinutes: 90,
-    location: "Golden Gate Park, Hellman's Hollow, San Francisco, CA",
+    location: "San Francisco parks",
     description:
-      "Outdoor yoga with Memory Lane Yoga — presence, play, and movement in the park. Every Friday at 6pm.",
+      "Weekly outdoor yoga with Memory Lane Yoga. See the calendar at memorylaneyoga.com for when and where each class meets.",
     timezone: "America/Los_Angeles",
   },
 };

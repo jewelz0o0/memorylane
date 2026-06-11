@@ -149,11 +149,6 @@
         cell.classList.add("calendar__day--today");
       }
 
-      if (cellDate.getDay() === cls.dayOfWeek) {
-        cell.classList.add("calendar__day--class");
-        cell.title = `${cls.title} — 6:00 PM`;
-      }
-
       grid.appendChild(cell);
     }
   };
@@ -183,19 +178,29 @@
     const subscribeUrl = googleSubscribeUrl();
     const icsUrl = icsSubscribeUrl();
 
+    const hasLiveCalendar = Boolean(subscribeUrl);
+
     container.innerHTML = `
-      <p class="calendar-sync__lede">Add weekly class to your calendar — updates when you change yours.</p>
+      <p class="calendar-sync__lede">${
+        hasLiveCalendar
+          ? "Subscribe to the Memory Lane Yoga calendar for when and where each class meets."
+          : "Add weekly classes to your calendar."
+      }</p>
       <div class="calendar-sync__actions">
-        <a class="btn btn--calendar" href="${googleAddUrl()}" target="_blank" rel="noopener noreferrer">Add to Google Calendar</a>
-        <button type="button" class="btn btn--calendar btn--calendar-outline" id="calendar-download-ics">Download for Apple / Outlook</button>
         ${
           subscribeUrl
-            ? `<a class="btn btn--calendar btn--calendar-outline" href="${subscribeUrl}" target="_blank" rel="noopener noreferrer">Subscribe to my calendar</a>`
+            ? `<a class="btn btn--calendar" href="${subscribeUrl}" target="_blank" rel="noopener noreferrer">Subscribe to Google Calendar</a>`
             : ""
         }
         ${
           icsUrl
-            ? `<a class="btn btn--calendar btn--calendar-outline" href="${icsUrl}">Subscribe (iCal feed)</a>`
+            ? `<a class="btn btn--calendar btn--calendar-outline" href="${icsUrl}">Subscribe in Apple / Outlook</a>`
+            : ""
+        }
+        ${
+          !hasLiveCalendar
+            ? `<a class="btn btn--calendar btn--calendar-outline" href="${googleAddUrl()}" target="_blank" rel="noopener noreferrer">Add to Google Calendar</a>
+               <button type="button" class="btn btn--calendar btn--calendar-outline" id="calendar-download-ics">Download calendar file</button>`
             : ""
         }
       </div>
